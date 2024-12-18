@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리 곁으로 돌아온 국가유산</title>
+  <style>
+
+@font-face {
+    font-family: '국립박물관문화재단클래식B';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/국립박물관문화재단클래식B.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+    body {
+      margin: 0;
+      background: #f0f0f0;
+      overflow: hidden;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      font-family: '국립박물관문화재단클래식B';
+    }
+
+    #map-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vh;
+      z-index: 2;
+      max-width: 600px;
+      max-height: 600px;
+    }
+
+    #korea-map {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .heritage {
+      position: absolute;
+      font-size: 24px;
+      cursor: grab;
+      z-index: 3;
+      animation: upDownMotion 4s infinite ease-in-out;
+    }
+
+    .heritage:active {
+      cursor: grabbing;
+    }
+
+    @keyframes upDownMotion {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      z-index: 5;
+      text-align: center;
+      max-width: 80%;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #popup img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #dark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 3;
+      display: none;
+    }
+
+    .wave {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: waveEffect 2.5s ease-out forwards;
+      z-index: 4;
+    }
+
+    @keyframes waveEffect {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    nav{margin: auto;}
+
+  </style>
+</head>
+
+<nav> <p>아이콘을 드래그해 한반도 지도에 넣어보세요</p>
+</nav>
+
+<body>
+  <div id="dark-overlay"></div>
+  <div id="map-container">
+    <img id="korea-map" src="korea.svg" alt="한반도 지도">
+    <div id="floating-icons">
+      <div class="heritage" id="heritage-1" data-description="한일관계사료집-국제연맹제출 조일관계사료집-
+      " data-image="image1.jpg">🏺</div>
+      <div class="heritage" id="heritage-2" data-description="백자청화정부인양주조씨묘지" data-image="image2.jpg">🏺</div>
+      <div class="heritage" id="heritage-3" data-description="민티어 부부 기증 사진자료
+      " data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-4" data-description="민티어 부부 기증 회화유물 등" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-5" data-description="조선 후기 회화" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-6" data-description="백자철화이성립묘지" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-7" data-description="재미동포 김대영 소장품" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-8" data-description="자수화조병풍 낱폭" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-9" data-description="백자청화이기하묘지" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-10" data-description="백자청화김경온묘지" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-11" data-description="혼례용 단령" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-12" data-description="재미동포 김대영 자료" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-13" data-description="고고유물" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-14" data-description="박정양 친필 편지" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-15" data-description="변성규 작 기명절지도" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-16" data-description="산수도" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-17" data-description="능행도 인쇄본" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-18" data-description="조선시대 문인석" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-19" data-description="신흥사 제반문 경판" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-20" data-description="1950년대 미군 촬영 기록사진" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-21" data-description="독립운동가 송일성 자료" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-22" data-description="조선시대 갑옷" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-23" data-description="옥천사 나한상" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-24" data-description="분청사기상감‘경태5년명’
+이선제 묘지" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-25" data-description="선암사 동악당 재인대선사 진영" data-image="image3.jpg">🏺</div>
+      <div class="heritage" id="heritage-26" data-description="석가삼존도" data-image="image3.jpg">🏺</div>
+    </div>
+  </div>
+  <div id="popup" class="hidden">
+    <div id="popup-text"></div>
+  </div>
+
+  <audio id="background-music" src="backmusic.mp3"></audio>
+  <script>
+    const body = document.body;
+    const mapContainer = document.getElementById("map-container");
+    const mapRect = mapContainer.getBoundingClientRect();
+    const iconCount = 26; // 유물 아이콘 개수
+    const margin = 100; // 지도와의 최소 거리
+
+    // 유물 아이콘 생성
+    function createIcons() {
+      for (let i = 0; i < iconCount; i++) {
+        const icon = document.createElement("div");
+        icon.classList.add("heritage");
+        icon.innerHTML = "🏺";
+        icon.dataset.description = `유물 ${i + 1}`;
+        icon.dataset.image = `image${i + 1}.jpg`;
+
+        // 지도 외부 랜덤 위치 생성
+        let x, y;
+        do {
+          x = Math.random() * window.innerWidth;
+          y = Math.random() * window.innerHeight;
+        } while (
+          x > mapRect.left - margin &&
+          x < mapRect.right + margin &&
+          y > mapRect.top - margin &&
+          y < mapRect.bottom + margin
+        );
+
+        icon.style.left = `${x}px`;
+        icon.style.top = `${y}px`;
+
+        // 드래그 이벤트 추가
+        icon.setAttribute("draggable", "true");
+        icon.addEventListener("dragstart", onDragStart);
+        icon.addEventListener("dragend", onDragEnd);
+
+        body.appendChild(icon);
+      }
+    }
+
+    // 드래그 시작
+    function onDragStart(e) {
+      e.dataTransfer.setData("text/plain", e.target.dataset.description);
+      e.target.style.opacity = 0.5;
+      e.target.dataset.dragging = "true";
+    }
+
+    // 드래그 종료
+    function onDragEnd(e) {
+      e.target.style.opacity = 1;
+      e.target.dataset.dragging = "false";
+    }
+
+    // 지도 드롭 영역 이벤트 설정
+    mapContainer.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    mapContainer.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const icon = document.querySelector('.heritage[data-dragging="true"]');
+      if (icon) {
+        const description = icon.dataset.description;
+        const image = icon.dataset.image;
+
+        // 팝업 표시
+        showPopup(description, image, icon);
+      }
+    });
+
+    // 팝업 표시
+    function showPopup(description, image, icon) {
+      const popup = document.createElement("div");
+      popup.id = "popup";
+      popup.innerHTML = `
+        <img src="${image}" alt="유물 이미지">
+        <p>${description}</p>
+      `;
+
+      const darkOverlay = document.getElementById("dark-overlay");
+      darkOverlay.style.display = "block";
+      darkOverlay.onclick = () => {
+        popup.remove();
+        darkOverlay.style.display = "none";
+      };
+
+      // 유물 아이콘 위치에서 파장 효과
+      const rect = icon.getBoundingClientRect();
+      createWaveEffect(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+      body.appendChild(popup);
+    }
+
+    // 파장 효과 생성
+    function createWaveEffect(x, y) {
+      for (let i = 0; i < 3; i++) {
+        const wave = document.createElement("div");
+        wave.classList.add("wave");
+        wave.style.left = `${x - 25}px`;
+        wave.style.top = `${y - 25}px`;
+        wave.style.animationDelay = `${i * 0.5}s`;
+        body.appendChild(wave);
+
+        setTimeout(() => wave.remove(), 2500);
+      }
+    }
+
+    // 유물 아이콘 초기화
+    createIcons();
+  </script>
+</body>
+</html>
